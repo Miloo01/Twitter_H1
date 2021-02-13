@@ -1,5 +1,6 @@
 class TweetsController < ApplicationController
   before_action :set_tweet, only: %i[ show edit update destroy ]
+  before_action :authenticate_user!, except: [:index]
 
   # GET /tweets or /tweets.json
   def index
@@ -17,11 +18,15 @@ class TweetsController < ApplicationController
 
   # GET /tweets/1/edit
   def edit
+    if @tweet.user_id != current_user.id
+      redirect_to root_path, alert: 'you dont have permission for edit tweets'
+    end
   end
 
   # POST /tweets or /tweets.json
   def create
     @tweet = Tweet.new(tweet_params)
+    @tweet.user_id = current_user.id
 
     respond_to do |format|
       if @tweet.save
