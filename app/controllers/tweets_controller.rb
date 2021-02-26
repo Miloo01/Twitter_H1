@@ -1,15 +1,17 @@
 class TweetsController < ApplicationController
-  before_action :set_tweet, only: %i[ show edit update destroy ]
+  before_action :set_tweet, only: %i[ show edit update destroy retweet ]
   before_action :authenticate_user!, except: [:index]
 
   # GET /tweets or /tweets.json
   def index
     @tweets = Tweet.all
+    @tweets = Tweet.order(created_at: :desc).page(params[:page]).per(50)
   end
 
   # GET /tweets/1 or /tweets/1.json
   def show
   end
+
 
   # GET /tweets/new
   def new
@@ -30,7 +32,7 @@ class TweetsController < ApplicationController
 
     respond_to do |format|
       if @tweet.save
-        format.html { redirect_to @tweet, notice: "Tweet was successfully created." }
+        format.html { redirect_to root_path, notice: "Tweet was successfully created." }
         format.json { render :show, status: :created, location: @tweet }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -52,6 +54,18 @@ class TweetsController < ApplicationController
     end
   end
 
+  def retweet
+    @retweet = Tweet.new(
+      user_id: current_user.id,
+      content: @tweet.content
+    )
+      if @retweet.save
+        redirect_to root_path, notice: 'Retwitteado'
+      else
+        redirect_to root_path, alert: 'No se pudo retwittear'
+      end
+  end
+
   # DELETE /tweets/1 or /tweets/1.json
   def destroy
     @tweet.destroy
@@ -69,6 +83,10 @@ class TweetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tweet_params
-      params.require(:tweet).permit(:content, :user_id)
+      params.require(:tweet).permit(:content, :user_id, :created_at)
+    end
+
+    def retweet_params
+      params.require(:retweet).permit(:retweet_id, :content).merge(user_id: current_user.id)
     end
 end
