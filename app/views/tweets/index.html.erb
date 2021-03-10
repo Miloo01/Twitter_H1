@@ -1,16 +1,33 @@
-<% if user_signed_in? %>
-  <%= link_to 'Nuevo Tweet', new_tweet_path %>
-  <%= link_to 'Cerrar Sesión', destroy_user_session_path, method: :delete %>
-<% else %>
-  <%= link_to 'Crear Cuenta', new_user_registration_path %>
-  <%= link_to 'Iniciar Sesión', new_user_session_path %>
-<% end %>
+
+
+
+<div class="row">
+  <div class="col-md-3 offset-md-2">
+    
+    <% if user_signed_in? %>
+      <%= link_to 'Nuevo Tweet', new_tweet_path %>
+      <%= link_to 'Cerrar Sesión', destroy_user_session_path, method: :delete %>
+    <% else %>
+      <%= link_to 'Crear Cuenta', new_user_registration_path %>
+      <%= link_to 'Iniciar Sesión', new_user_session_path %>
+    <% end %>
+
+    <!-- <div class="form-group">
+      <%= form_tag(root_path, method: 'get', class: 'd-flex') do %>
+        <%= text_field_tag :q, nil, placeholder: 'Buscar tweets', class:'mr-3', style:'border-radius:30px' %>
+        <%= submit_tag 'Buscar' %>
+      <% end %>
+    </div> -->
+
+  </div>
+</div>
 
 
 
 <% @tweets.each do |tweet| %>
   <div class="row d-flex justify-content-center my-3">
     <div class="col-6">
+
       <div class="card">
         <div class="card-body">
           <figure class="d-flex align-items-center">
