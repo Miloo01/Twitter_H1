@@ -69,3 +69,5 @@ gem 'devise'
 gem 'kaminari', :git => 'https://github.com/kaminari/kaminari'
 
 gem 'ransack'
+
+gem 'activeadmin'
