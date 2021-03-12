@@ -1,0 +1,48 @@
+<% if @tweets.count == 0 %>
+  <p class="text-center font-weight-bold display-4">Aun no hay Tweets  <span><i class="fas fa-sad-cry text-primary"></i></span></p>
+  <p class="text-center font-weight-bold">Hazte una cuenta y sé el primero en compartir uno!</p>
+<% else %>
+  <% @tweets.each do |tweet| %>
+    <div class="d-flex justify-content-center my-3">
+      <div class="col-6">
+        <div class="card">
+            <div class="card-body">
+                <figure class="d-flex align-items-center">
+                  <figure class="d-flex align-items-center">
+                    <img src="<%=tweet.user.profile_picture %>" style="width:60px; height:60px; border-radius:50%">
+                    <figcaption class="w-75 pl-3"><%= tweet.content %></figcaption>
+                  </figure>
+
+                </figure>
+                <div class="d-flex justify-content-around">
+                  <div>
+                    <% if user_signed_in? %>
+                      <% pre_follow = current_user.friends.find { |friend| friend.friend_id == tweet.user.id } %>
+                      <% if pre_follow %>
+                        <%= link_to 'Dejar de seguir', friend_destroy_path(tweet.user.id), method: :delete %>
+                      <% else %>
+                        <%= link_to 'Seguir', friend_create_path(tweet.user.id), method: :post %>
+                      <% end %>
+                    <% end %>
+                  </div>
+                  <div>
+                    <% pre_like = tweet.likes.find { |like| like.user_id == current_user.id if user_signed_in? } %>
+                    <% if pre_like %>
+                      <%= link_to image_tag('https://w7.pngwing.com/pngs/399/876/png-transparent-like-icon-facebook-like-button-emoticon-emoji-facebook-blue-angle-text-thumbnail.png', size: "20x20"), tweet_like_path(tweet, pre_like), method: :delete %>
+                    <% else %>
+                      <%= link_to image_tag('https://w7.pngwing.com/pngs/360/748/png-transparent-facebook-dislike-illustration-social-media-facebook-like-button-facebook-dislike-blue-angle-text-thumbnail.png', size: "20x20"), tweet_likes_path(tweet), method: :post %>
+                    <% end %>
+                    <%= tweet.likes.count %> <!--Likes-->
+                  </div>
+                  <div>
+                      <%= link_to image_tag('https://w7.pngwing.com/pngs/497/636/png-transparent-computer-icons-scalable-graphics-apple-icon-format-twitter-retweet-icon-miscellaneous-angle-text-thumbnail.png', size: "25x15"), retweet_tweet_path(tweet.id) %>
+                     
+                  </div>
+                  <%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id) %>
+                </div>
+            </div>
+          </div>
+      </div>
+    </div>
+  <% end %>
+<% end %>

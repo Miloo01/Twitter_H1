@@ -6,8 +6,11 @@ Rails.application.routes.draw do
     member do
       post :retweet
     end
-
   end
+
+  post 'user/:user_id', to: 'friends#create', as: 'friend_create'
+  delete 'user/:user_id', to: 'friends#destroy', as: 'friend_destroy'
+
 
   devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions'}
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html

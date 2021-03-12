@@ -4,10 +4,11 @@ class TweetsController < ApplicationController
 
   # GET /tweets or /tweets.json
   def index
+
     if params[:q]
-    @tweets = Tweet.where("content LIKE ?", "%#{params[:q]}%").order(created_at: :desc).page(params[:page])
+     @tweets = Tweet.where("content LIKE ?", "%#{params[:q]}%").order(created_at: :desc).page(params[:page])
     else
-      @tweets = Tweet.order(created_at: :desc).page(params[:page])
+       @tweets = Tweet.order(created_at: :desc).page(params[:page])
     end
     @tweet = Tweet.new
   end
@@ -61,7 +62,8 @@ class TweetsController < ApplicationController
   def retweet
     @retweet = Tweet.new(
       user_id: current_user.id,
-      content: @tweet.content
+      content: @tweet.content,
+     
     )
       if @retweet.save
         redirect_to root_path, notice: 'Retwitteado'
@@ -87,7 +89,7 @@ class TweetsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def tweet_params
-      params.require(:tweet).permit(:content, :user_id, :created_at)
+      params.require(:tweet).permit(:content, :user_id, :created_at, :tweet_id)
     end
 
     def retweet_params

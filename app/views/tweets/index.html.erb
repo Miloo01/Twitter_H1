@@ -1,6 +1,3 @@
-
-
-
 <div class="row">
   <div class="col-md-3 offset-md-2">
     
@@ -12,9 +9,9 @@
       <%= link_to 'Iniciar Sesión', new_user_session_path %>
     <% end %>
 
-
   </div>
 </div>
+
 
 
 
@@ -37,12 +34,12 @@
                 <% else %>
                   <%= link_to image_tag('https://www.iconfinder.com/data/icons/twitter-21/512/166_Heart_Love_Like_Twitter-512.png', width: 20, height: 20), tweet_likes_path(tweet), method: :post %>
                 <% end %>
-                <%= tweet.likes.count %> <!--Likes-->
+                <%= tweet.likes.count %> Likes
               <% end %>
             </div>  
             <div>
               <%= link_to image_tag('https://w7.pngwing.com/pngs/497/636/png-transparent-computer-icons-scalable-graphics-apple-icon-format-twitter-retweet-icon-miscellaneous-angle-text-thumbnail.png', width:20, height: 20), retweet_tweet_path(tweet.id), method: :post %>
-              <%= tweet.likes.count %> <!--RT-->
+              <%= tweet.likes.count %> RT
             </div>
             <%= link_to distance_of_time_in_words(Time.now, tweet.created_at), tweet_path(tweet.id) %>
           </div>

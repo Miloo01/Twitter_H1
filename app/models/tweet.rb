@@ -10,9 +10,9 @@ class Tweet < ApplicationRecord
   paginates_per 50
 
   scope :tweets_for_me, ->(users_list) { where(
-    user_id: users_list.map do |friend|
-        friend.friend_id
-    end
+     user_id: users_list.map do |friend|
+         friend.friend_id
+     end
   ) }
   
 end
