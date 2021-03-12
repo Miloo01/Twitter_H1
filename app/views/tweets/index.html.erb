@@ -23,9 +23,19 @@
         <div class="card-body">
           <figure class="d-flex align-items-center">
             <img src="<%=tweet.user.profile_picture %>" style="width:60px; height:60px; border-radius:50%">
-            <figcaption class="w-75 pl-3"><%= tweet.content %></figcaption>
+            <figcaption class="w-75 pl-3">
+              <% tweet.content.split.each do |word| %>
+                <% if word.start_with?('#') %>
+                  <%= link_to word, root_path(q: word) %>
+                <% else %>
+                  <%= word %>
+                <% end %>
+              <% end %>
+            </figcaption>
+            
           </figure>
           <div class="d-flex justify-content-around">
+            
             <div>
               <% if user_signed_in? %>
                 <% pre_like = tweet.likes.find { |like| like.user_id == current_user.id } %>
