@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get 'api/news'
   get 'api/:fecha1/:fecha2', to: 'api#search', as: 'ask_search'
 
+  post 'api/create', to: 'api#create_tweet'
 
   devise_for :users, controllers: { registrations: 'users/registrations', sessions: 'users/sessions'}
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
